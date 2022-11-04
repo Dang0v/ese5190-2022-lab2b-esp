@@ -5,3 +5,8 @@
 - record a trace of this exchange
 
 
+
+### Note:
+
+Currently, trigger pin is set by REPL.
+
