@@ -17,10 +17,8 @@ set(PICO_EXAMPLES_PATH ${PROJECT_SOURCE_DIR})
 # Initialize the SDK
 pico_sdk_init()
 
-include(example_auto_set_url.cmake)
 # Add blink example
 add_subdirectory(01_registers)
 add_subdirectory(02_repl)
 add_subdirectory(03_sequencer)
-add_subdirectory(04_slow_motion)
 add_subdirectory(06_pioscope)
