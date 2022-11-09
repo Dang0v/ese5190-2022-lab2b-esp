@@ -169,7 +169,7 @@ int main() {
                 //combine to a string
                 total_length = get_number_string(number_buf, integer_length + 1) + integer_length + 1;
                 //transfer to float
-                print_capture_buf(number_buf, CAPTURE_PIN_BASE, total_length);
+                
                 velocity = atof(number_buf);
                 printf("%3.3f",velocity);
                 if (velocity == 0)
@@ -194,6 +194,7 @@ int main() {
                 break;
             case 'c':
                 clear_buf(capture_buf, CAPTURE_N_SAMPLES);
+                printf("Clear!\n");
                 break;
             
         }

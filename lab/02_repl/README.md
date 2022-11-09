@@ -27,12 +27,13 @@ Create a REPL to let you read and write RP2040 registers from a console. You sho
 
   
 
-- read/write any 32-bit value to this address 
-- read/write using any of the atomic bit-setting aliases and a 32-bit mask
+- read/write any 32-bit value to this address :heavy_check_mark:
+
+  ![image-20221109124018866](README.assets/image-20221109124018866.png)
+
+- read/write using any of the atomic bit-setting aliases and a 32-bit mask :heavy_check_mark:
+
+  ![image-20221109123939106](README.assets/image-20221109123939106.png)
 
 
-
-### NOTE:
-
-The write function is not completed for the moment
 

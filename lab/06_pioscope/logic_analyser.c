@@ -14,7 +14,9 @@
 // frequency.
 
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "pico/stdlib.h"
 #include "hardware/pio.h"
@@ -23,6 +25,7 @@
 
 // Some logic to analyse: 
 #include "hardware/structs/pwm.h"
+
 
 const uint CAPTURE_PIN_BASE = 21;
 const uint CAPTURE_PIN_COUNT = 1;
@@ -152,7 +155,6 @@ int main() {
         logic_analyser_arm(pio, sm, dma_chan, capture_buf, buf_size_words, TRIGGER_PIN, true);
 
         printf("Start recording\n");
-        // PWM example: -----------------------------------------------------------
         
         dma_channel_wait_for_finish_blocking(dma_chan);
         printf("Recording done!\n");
