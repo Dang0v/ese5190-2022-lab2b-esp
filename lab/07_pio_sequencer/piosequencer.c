@@ -159,7 +159,7 @@ int main() {
     logic_analyser_init(pio, sm, CAPTURE_PIN_BASE, CAPTURE_PIN_COUNT, 125000000 / (2 * 400 * 8 * 1000));// double freq of i2c rate. 400kbits/s => 800*8kHz
 
     gpio_init(TRIGGER_PIN);
-    gpio_set_dir(TRIGGER_PIN, GPIO_OUT);
+    gpio_set_dir(TRIGGER_PIN, GPIO_IN);
     sleep_ms(5000);
 
 
@@ -172,16 +172,11 @@ int main() {
     multicore_launch_core1(core1_main); //keep fetching data from APDS9960 through core1.
 
     while(true){   
-        printf("press a to arming trigger\n");
-        while(true){
-            last_serial_byte = getchar_timeout_us(0);
-            if (last_serial_byte == 'a'){
-                gpio_put(TRIGGER_PIN, 1);
-                break;
-            }
-                
-        }
-        logic_analyser_arm(pio, sm, dma_chan, capture_buf, buf_size_words, TRIGGER_PIN, true);
+        printf("press boot button to arming trigger\n");
+
+        do{} while (gpio_get(TRIGGER_PIN) == 1);
+
+        logic_analyser_arm(pio, sm, dma_chan, capture_buf, buf_size_words, TRIGGER_PIN, false);
 
         printf("Start recording\n");
         
@@ -190,8 +185,7 @@ int main() {
 
         print_capture_buf(capture_buf, CAPTURE_PIN_BASE, CAPTURE_PIN_COUNT, CAPTURE_N_SAMPLES);
 
-        gpio_put(TRIGGER_PIN, 0);
-        sleep_ms(100);
+        sleep_ms(1000);
         }
         
 }

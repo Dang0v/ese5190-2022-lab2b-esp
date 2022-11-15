@@ -10,3 +10,8 @@
 
 - bus rate is 400kbits, and the sampling rate is 800*8kHz.
 
+### EXAMPLE:
+
+- serial log file:
+
+![image-20221115182346871](README.assets/image-20221115182346871.png)

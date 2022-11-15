@@ -8,5 +8,5 @@
 
 ### Note:
 
-Currently, trigger pin is set by REPL.
+More specific details are in Lab 07.
 
