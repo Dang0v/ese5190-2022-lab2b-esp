@@ -1,13 +1,13 @@
 Outline:
-- 01_registers
-- 02_repl
-- 03_sequencer
-- 04_slow_motion
-- 05_i2c_traffic
-- 06_pioscope
-- 07_pio_sequencer
-- 08_adps_protocol
-- 09_lab_on_a_chip
+- 01_registers :heavy_check_mark:
+- 02_repl :heavy_check_mark:
+- 03_sequencer :heavy_check_mark:
+- 04_slow_motion :heavy_check_mark:
+- 05_i2c_traffic :heavy_check_mark:
+- 06_pioscope :heavy_check_mark:
+- 07_pio_sequencer :heavy_check_mark:
+- 08_adps_protocol :heavy_check_mark:
+- 09_lab_on_a_chip 
 - 10_protoboard
 - EC_analog_knob
 - EC_ansi_escapes
