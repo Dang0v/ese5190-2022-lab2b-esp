@@ -1,8 +1,9 @@
-/**
- * Copyright (c) 2020 Raspberry Pi (Trading) Ltd.
- *
- * SPDX-License-Identifier: BSD-3-Clause
- */
+/*
+    A simple driver for APDS9960 by Dang0v
+
+    based on PIO.I2C example in PICO_example
+    
+*/
 
 #include <stdio.h>
 #include <string.h>
@@ -68,44 +69,3 @@ void read_rgbc(PIO pio, uint sm, int32_t* r, int32_t* g, int32_t* b, int32_t* c)
     *g = (buf[5] << 8) | buf[4];
     *b = (buf[7] << 8) | buf[6];
 }
-
-/*    
-int main() {
-    stdio_init_all();
-
-    uint offset = pio_add_program(pio, &i2c_program);
-    i2c_program_init(pio, sm, offset, PIN_SDA, PIN_SCL);
-
-    // This example will use I2C0 on the default SDA and SCL pins (4, 5 on a Pico)
-    
-    //gpio_set_function(PICO_DEFAULT_I2C_SDA_PIN, GPIO_FUNC_I2C);
-    //gpio_set_function(PICO_DEFAULT_I2C_SCL_PIN, GPIO_FUNC_I2C);
-    //gpio_pull_up(PICO_DEFAULT_I2C_SDA_PIN);
-    //gpio_pull_up(PICO_DEFAULT_I2C_SCL_PIN);
-
-
-    sleep_ms(5000);
-
-    PIO pio = pio0;
-    uint sm = 0;
-
-    APDS9960_init(pio, sm);
-    printf("Hello, APDS9960! Reading raw data from module...\n");
-
-    while (true) {
-        
-        int32_t proximity;
-        int32_t r,g,b,c;
-
-        read_proximity(pio, sm, &proximity);
-        read_rgbc(pio, sm, &r, &g, &b, &c);
-
-        printf("proximity: %d   ",proximity);
-        printf("r:%d, g:%d, b:%d, c:%d\n", r, g, b, c);
-
-        // Wait for data to refresh
-        //sleep_ms(1000);
-
-    }
-}
-*/

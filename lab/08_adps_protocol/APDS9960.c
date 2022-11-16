@@ -1,11 +1,13 @@
-/**
- * Copyright (c) 2020 Raspberry Pi (Trading) Ltd.
- *
- * SPDX-License-Identifier: BSD-3-Clause
- */
+/*
+    A simple driver for APDS9960 by Dang0v
+
+    based on PIO.I2C example in PICO_example
+
+*/
 
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 #include "pico/stdlib.h"
 #include "pico/binary_info.h"
 #include "string.h"

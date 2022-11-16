@@ -26,26 +26,9 @@
 #include "i2c.pio.h"
 #include "pico/multicore.h"
 
-// Some logic to analyse: 
-#include "hardware/structs/pwm.h"
+#include "piosequencer.h"
 
 
-const uint CAPTURE_PIN_BASE = 22;
-const uint CAPTURE_PIN_COUNT = 2;
-const uint CAPTURE_N_SAMPLES = 350000;
-const uint TRIGGER_PIN = 21;
-
-#define PIN_SDA 22
-#define PIN_SCL 23
-
-static inline uint bits_packed_per_word(uint pin_count) {
-    // If the number of pins to be sampled divides the shift register size, we
-    // can use the full SR and FIFO width, and push when the input shift count
-    // exactly reaches 32. If not, we have to push earlier, so we use the FIFO
-    // a little less efficiently.
-    const uint SHIFT_REG_WIDTH = 32;
-    return SHIFT_REG_WIDTH - (SHIFT_REG_WIDTH % pin_count);
-}
 
 void logic_analyser_init(PIO pio, uint sm, uint pin_base, uint pin_count, float div) {
     // Load a program to capture n pins. This is just a single `in pins, n`
@@ -119,6 +102,7 @@ void print_capture_buf(const uint32_t *buf, uint pin_base, uint pin_count, uint3
     }
 }
 
+/*
 void core1_main() {
     uint32_t proximity;
     uint32_t r, g, b, c;
@@ -169,7 +153,7 @@ int main() {
     uint offset = pio_add_program(pio_2, &i2c_program);
     i2c_program_init(pio_2, sm, offset, PIN_SDA, PIN_SCL);
 
-    APDS9960_init(pio_2, sm);// the default i2c rate is set to 400kHz
+    APDS9960_init();// the default i2c rate is set to 400kHz
     
     multicore_launch_core1(core1_main); //keep fetching data from APDS9960 through core1.
 
@@ -191,4 +175,4 @@ int main() {
         }
         
 }
-
+*/
