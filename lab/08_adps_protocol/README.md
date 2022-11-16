@@ -6,7 +6,11 @@ Use the capabilities of your sequencer to implement the ADPS9960 protocol and co
 
 This include drive for APDS9960 through pio-i2c.
 
-Combining the regular i2c code with pio-i2c code, we write our own protocol,
+Combining the regular i2c code with pio-i2c code, we write our own protocol
+
+### DEMO:
+
+![image-20221115230033309](README.assets/image-20221115230033309.png)
 
 ### KEY POINT:
 

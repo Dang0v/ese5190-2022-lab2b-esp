@@ -25,13 +25,14 @@
 #include "APDS9960.h"
 #include "i2c.pio.h"
 #include "pico/multicore.h"
+#include "neopixel.h"
 
 // Some logic to analyse: 
 #include "hardware/structs/pwm.h"
 
 
-const uint CAPTURE_PIN_BASE = 22;
-const uint CAPTURE_PIN_COUNT = 2;
+const uint CAPTURE_PIN_BASE = 12;
+const uint CAPTURE_PIN_COUNT = 1;
 const uint CAPTURE_N_SAMPLES = 350000;
 const uint TRIGGER_PIN = 21;
 
@@ -129,6 +130,18 @@ void core1_main() {
         read_rgbc(pio_2, sm, &r, &g, &b, &c);
         //printf("proximity: %d   ",proximity);
         //printf("r:%d, g:%d, b:%d, c:%d\n", r, g, b, c);
+        
+        neopixel_set_rgb((r << 16u | g << 8u | b));
+        
+        /*
+        if (gpio_get(TRIGGER_PIN) == 0){
+            sleep_ms(5);
+            
+        }
+        else
+            neopixel_set_rgb(0x00000000);
+            */
+        //neopixel_set_rgb(0x00000000);
         sleep_ms(5);
     }
 }
@@ -155,6 +168,7 @@ int main() {
     PIO pio = pio0;
     PIO pio_2 = pio1;
     uint sm = 0;
+    
     uint dma_chan = 0;
     char last_serial_byte = 0;
 
@@ -170,6 +184,7 @@ int main() {
     i2c_program_init(pio_2, sm, offset, PIN_SDA, PIN_SCL);
 
     APDS9960_init(pio_2, sm);// the default i2c rate is set to 400kHz
+    neopixel_init();
     
     multicore_launch_core1(core1_main); //keep fetching data from APDS9960 through core1.
 

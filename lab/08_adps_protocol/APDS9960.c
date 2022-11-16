@@ -19,7 +19,7 @@
 #define GESTURE_ENABLE 0
 
 #define ALS_GAIN 0
-#define ALS_TIME 0x00
+#define ALS_TIME 219
 
 #define INIT_CONFIG (GESTURE_ENABLE << 6u) | (PROXIMITY_ENABLE << 2u) | (ALS_ENABLE << 1u) | POWER_ENABLE
 
