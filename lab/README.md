@@ -7,8 +7,8 @@ Outline:
 - 06_pioscope :heavy_check_mark:
 - 07_pio_sequencer :heavy_check_mark:
 - 08_adps_protocol :heavy_check_mark:
-- 09_lab_on_a_chip 
-- 10_protoboard
+- 09_lab_on_a_chip :heavy_check_mark:
+- 10_protoboard :heavy_check_mark:
 - EC_analog_knob
 - EC_ansi_escapes
 - EC_asm_registers
