@@ -55,8 +55,8 @@ int main() {
     bus_ctrl_hw->priority = BUSCTRL_BUS_PRIORITY_DMA_W_BITS | BUSCTRL_BUS_PRIORITY_DMA_R_BITS;
 
     //pio and DMA setting
-    PIO pio = pio0;
-    PIO pio_i2c = pio1;
+    PIO pio = pio0;         //pio0 sm0 for logic analyser
+    PIO pio_i2c = pio1;     //pio1 sm0 for i2c APDS9960 initialization and data fecthing
     uint sm = 0;
     uint dma_chan = 0;
 

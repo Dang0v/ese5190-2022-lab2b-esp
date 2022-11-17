@@ -57,3 +57,9 @@ Same question find on a [website](https://forums.raspberrypi.com/viewtopic.php?t
 And the solution will work, clear the IRQ at the end of ACK pulse
 
 ![image-20221115183411181](README.assets/image-20221115183411181.png)
+
+### Other Method:
+
+We have record the fetching command on i2c pins in part 7, in order to do this, we can just send this 'binary command' on pins through PIO.
+
+However, it seems hard to get the data into program that drive the ws2812.

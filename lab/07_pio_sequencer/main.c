@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <malloc.h>
 
 #include "pico/stdlib.h"
 #include "hardware/pio.h"
@@ -25,14 +26,16 @@ void core1_main() {
     uint32_t proximity;
     uint32_t r, g, b, c;
     PIO pio_i2c = pio1;
-    uint sm = 0;
-    while(true){
-        read_proximity(pio_i2c, sm, &proximity);
-        read_rgbc(pio_i2c, sm, &r, &g, &b, &c);
+    uint sm_i2c = 0;
+    printf("press a to stop.\n");
+    do {
+        read_proximity(pio_i2c, sm_i2c, &proximity);
+        read_rgbc(pio_i2c, sm_i2c, &r, &g, &b, &c);
         //printf("proximity: %d   ",proximity);
         //printf("r:%d, g:%d, b:%d, c:%d\n", r, g, b, c);
         sleep_ms(5);
-    }
+    } while(getchar_timeout_us(0) != 'a');
+    printf("stop sending!\n");
 }
 
 int main() {
@@ -53,9 +56,10 @@ int main() {
     bus_ctrl_hw->priority = BUSCTRL_BUS_PRIORITY_DMA_W_BITS | BUSCTRL_BUS_PRIORITY_DMA_R_BITS;
 
     //pio and DMA setting
-    PIO pio = pio0;
-    PIO pio_i2c = pio1;
+    PIO pio = pio0;         //pio0 sm0 for logic analyser
+    PIO pio_i2c = pio1;     //pio1 sm0 for i2c APDS9960 initialization and data fecthing
     uint sm = 0;
+    uint sm_i2c = 0;
     uint dma_chan = 0;
 
     //-------------------------initialization--------------------------
@@ -68,30 +72,39 @@ int main() {
 
     // initialize PIO.I2C and APDS9960
     uint offset = pio_add_program(pio_i2c, &i2c_program);
-    i2c_program_init(pio_i2c, sm, offset, PIN_SDA, PIN_SCL);
+    i2c_program_init(pio_i2c, sm_i2c, offset, PIN_SDA, PIN_SCL);
 
-    APDS9960_init(pio_i2c, sm);// the default i2c rate is set to 400kHz
+    APDS9960_init(pio_i2c, sm_i2c);// the default i2c rate is set to 400kHz
     
     multicore_launch_core1(core1_main); //keep fetching data from APDS9960 through core1.
 
     //-------------------------initialization--------------------------
 
-    while(true){   
-        printf("press boot button to arming trigger\n");
+    //while(true){   
+    //printf("press boot button to arming trigger\n");
 
-        do{} while (gpio_get(TRIGGER_PIN) == 1);
+    do{} while (gpio_get(TRIGGER_PIN) == 1);
 
-        logic_analyser_arm(pio, sm, dma_chan, capture_buf, buf_size_words, TRIGGER_PIN, false);
+    logic_analyser_arm(pio, sm, dma_chan, capture_buf, buf_size_words, TRIGGER_PIN, false);
 
-        printf("Start recording\n");
-        
-        dma_channel_wait_for_finish_blocking(dma_chan);
-        printf("Recording done!\n");
+    //printf("Start recording\n");
 
-        print_capture_buf(capture_buf, CAPTURE_PIN_BASE, CAPTURE_PIN_COUNT, CAPTURE_N_SAMPLES);
+    dma_channel_wait_for_finish_blocking(dma_chan);
+    //printf("Recording done!\n");
 
-        sleep_ms(1000);
-        }
-        
+    //print_capture_buf(capture_buf, CAPTURE_PIN_BASE, CAPTURE_PIN_COUNT, CAPTURE_N_SAMPLES);
+
+    sleep_ms(1000);
+    //}
+    printf("done!\n");
+    
+    //play the record of sending data fecthing request to APDS9960
+    PIO pio_put = pio0;
+    int sm_put = 1;
+    pio_seq_out_init(pio_put, sm_put, CAPTURE_PIN_BASE, CAPTURE_PIN_COUNT, 125000000 / (400 * 8 * 1000));
+    while(true){
+        pio_seq_out(pio_put, sm_put, capture_buf, buf_size_words);
+        sleep_ms(5);
+    }
 }
 
